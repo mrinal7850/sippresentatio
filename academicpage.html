@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INNOVATORS - Academic Cases</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 0, 0, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff0000;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 20px #ff0000;
+            transform: scale(1.05);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff0000, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+            to { text-shadow: 0 0 30px rgba(255, 0, 0, 0.8); }
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #cccccc;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            border-radius: 25px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            border-color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
+        }
+
+        /* Cases Grid */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .case-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .case-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 0, 0, 0.3);
+            border-color: #ff0000;
+        }
+
+        .case-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2) 0%, rgba(255, 0, 0, 0.05) 100%);
+            position: relative;
+        }
+
+        .case-category {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: #ff0000;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .case-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .case-subtitle {
+            color: #cccccc;
+            font-size: 1rem;
+        }
+
+        .case-content {
+            padding: 2rem;
+        }
+
+        .case-description {
+            color: #dddddd;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .case-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+
+        .case-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.4);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #ffffff;
+        }
+
+        .case-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ff0000;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a, #000000);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            color: #ff0000;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ffffff;
+            transform: scale(1.2);
+        }
+
+        .modal-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+            padding-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: #ff0000;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-body {
+            color: #dddddd;
+            line-height: 1.8;
+        }
+
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+
+        .modal-section h3 {
+            color: #ff0000;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 1rem;
+            }
+            
+            .case-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #ff0000;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 0, 0, 0.2);
+            border-top: 4px solid #ff0000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 0, 0, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">INNOVATORS</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-content">
+                <h1>Academic Case Studies</h1>
+                <p>Explore real-world applications and in-depth analysis across multiple disciplines. Learn from comprehensive case studies designed to enhance critical thinking and practical knowledge.</p>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <button class="filter-btn active" onclick="filterCases('all')">All Cases</button>
+            <button class="filter-btn" onclick="filterCases('business')">Business</button>
+            <button class="filter-btn" onclick="filterCases('science')">Science</button>
+            <button class="filter-btn" onclick="filterCases('technology')">Technology</button>
+            <button class="filter-btn" onclick="filterCases('medicine')">Medicine</button>
+            <button class="filter-btn" onclick="filterCases('engineering')">Engineering</button>
+        </div>
+
+        <!-- Cases Grid -->
+        <div class="cases-grid" id="casesGrid">
+            <!-- Business Case -->
+            <div class="case-card" data-category="business">
+                <div class="case-header">
+                    <div class="case-category">Business Strategy</div>
+                    <h3 class="case-title">Netflix's Digital Transformation</h3>
+                    <p class="case-subtitle">From DVD Rental to Streaming Giant</p>
+                </div>
+                <div class="case-content">
+                    <p class="case-description">
+                        Analyze how Netflix successfully pivoted from a DVD-by-mail service to become the world's leading streaming platform, exploring strategic decisions, market adaptation, and innovation.
+                    </p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">15</div>
+                            <div class="stat-label">Years Studied</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">200M+</div>
+                            <div class="stat-label">Subscribers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">190+</div>
+                            <div class="stat-label">Countries</div>
+                        </div>
+                    </div>
+                    <div class="case-tags">
+                        <span class="tag">Digital Transformation</span>
+                        <span class="tag">Market Disruption</span>
+                        <span class="tag">Strategic Planning</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="btn btn-primary" onclick="openCaseModal('netflix')">View Case Study</button>
+                        <a href="#" class="btn btn-secondary">Download PDF</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Science Case -->
+            <div class="case-card" data-category="science">
+                <div class="case-header">
+                    <div class="case-category">Environmental Science</div>
+                    <h3 class="case-title">Great Barrier Reef Conservation</h3>
+                    <p class="case-subtitle">Climate Change Impact & Solutions</p>
+                </div>
+                <div class="case-content">
+                    <p class="case-description">
+                        Examine the complex environmental challenges facing the Great Barrier Reef, including coral bleaching, marine biodiversity loss, and innovative conservation strategies.
+                    </p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">2,300</div>
+                            <div class="stat-label">Km Length</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">50%</div>
+                            <div class="stat-label">Coral Loss</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">1,500</div>
+                            <div class="stat-label">Fish Species</div>
+                        </div>
+                    </div>
+                    <div class="case-tags">
+                        <span class="tag">Climate Change</span>
+                        <span class="tag">Marine Biology</span>
+                        <span class="tag">Conservation</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="btn btn-primary" onclick="openCaseModal('reef')">View Case Study</button>
+                        <a href="#" class="btn btn-secondary">Download PDF</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Case -->
+            <div class="case-card" data-category="technology">
+                <div class="case-header">
+                    <div class="case-category">AI & Machine Learning</div>
+                    <h3 class="case-title">AlphaGo: AI Breakthrough</h3>
+                    <p class="case-subtitle">Mastering the Ancient Game of Go</p>
+                </div>
+                <div class="case-content">
+                    <p class="case-description">
+                        Explore DeepMind's revolutionary AlphaGo program that defeated world champion Lee Sedol, marking a significant milestone in artificial intelligence development.
+                    </p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">4-1</div>
+                            <div class="stat-label">Match Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">280M</div>
+                            <div class="stat-label">Viewers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">2016</div>
+                            <div class="stat-label">Historic Year</div>
+                        </div>
+                    </div>
+                    <div class="case-tags">
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag">Neural Networks</span>
+                        <span class="tag">Game Theory</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="btn btn-primary" onclick="openCaseModal('alphago')">View Case Study</button>
+                        <a href="#" class="btn btn-secondary">Download PDF</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medicine Case -->
+            <div class="case-card" data-category="medicine">
+                <div class="case-header">
+                    <div class="case-category">Medical Innovation</div>
+                    <h3 class="case-title">mRNA Vaccine Development</h3>
+                    <p class="case-subtitle">COVID-19 Pandemic Response</p>
+                </div>
+                <div class="case-content">
+                    <p class="case-description">
+                        Study the rapid development of mRNA vaccines for COVID-19, examining the science, regulatory processes, and global collaboration that made it possible.
+                    </p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">11</div>
+                            <div class="stat-label">Months</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">95%</div>
+                            <div class="stat-label">Efficacy</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">5B+</div>
+                            <div class="stat-label">Doses Given</div>
+                        </div>
+                    </div>
+                    <div class="case-tags">
+                        <span class="tag">Biotechnology</span>
+                        <span class="tag">Public Health</span>
+                        <span class="tag">Innovation</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="btn btn-primary" onclick="openCaseModal('mrna')">View Case Study</button>
+                        <a href="#" class="btn btn-secondary">Download PDF</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Engineering Case -->
+            <div class="case-card" data-category="engineering">
+                <div class="case-header">
+                    <div class="case-category">Aerospace Engineering</div>
+                    <h3 class="case-title">SpaceX Falcon 9 Reusability</h3>
+                    <p class="case-subtitle">Revolutionary Rocket Landing Technology</p>
+                </div>
+                <div class="case-content">
+                    <p class="case-description">
+                        Analyze the engineering challenges and innovations behind SpaceX's reusable rocket technology, transforming the economics of space exploration.
+                    </p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">100+</div>
+                            <div class="stat-label">Landings</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">90%</div>
+                            <div class="stat-label">Cost Reduction</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">2015</div>
+                            <div class="stat-label">First Landing</div>
+                        </div>
+                    </div>
+                    <div class="case-tags">
+                        <span class="tag">Propulsion</span>
+                        <span class="tag">Control Systems</span>
+                        <span class="tag">Cost Engineering</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="btn btn-primary" onclick="openCaseModal('spacex')">View Case Study</button>
+                        <a href="#" class="btn btn-secondary">Download PDF</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Business Case -->
+            <div class="case-card" data-category="business">
+                <div class="case-header">
+                    <div class="case-category">Startup Strategy</div>
+                    <h3 class="case-title">Airbnb's Market Disruption</h3>
+                    <p class="case-subtitle">Sharing Economy Pioneer</p>
+                </div>
+                <div class="case-content">
+                    <p class="case-description">
+                        Examine how Airbnb disrupted the traditional hospitality industry by creating a peer-to-peer marketplace for home sharing and travel experiences.
+                    </p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">220+</div>
+                            <div class="stat-label">Countries</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">4M</div>
+                            <div class="stat-label">Hosts</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">$75B</div>
+                            <div class="stat-label">Valuation</div>
+                        </div>
+                    </div>
+                    <div class="case-tags">
+                        <span class="tag">Platform Business</span>
+                        <span class="tag">Network Effects</span>
+                        <span class="tag">Regulation</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="btn btn-primary" onclick="openCaseModal('airbnb')">View Case Study</button>
+                        <a href="#" class="btn btn-secondary">Download PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="caseModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCaseModal()">&times;</span>
+            <div id="modalContent">
+                <!-- Modal content will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Elements -->
+    <div class="floating-element" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
+    <div class="floating-element" style="top: 60%; left: 85%; animation-delay: 2s;"></div>
+    <div class="floating-element" style="top: 80%; left: 15%; animation-delay: 4s;"></div>
+
+    <script>
+        // Filter functionality
+        function filterCases(category) {
+            const cards = document.querySelectorAll('.case-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeInUp 0.6s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Modal functionality
+        function openCaseModal(caseId) {
+            const modal = document.getElementById('caseModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            // Case study content
+            const caseData = {
+                netflix: {
+                    title: 'Netflix Digital Transformation Case Study',
+                    content: `
+                        <div class="modal-header">
+                            <h2 class="modal-title">Netflix: From DVD to Streaming Giant</h2>
+                            <p>A comprehensive analysis of one of the most successful digital transformations in business history.</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>Executive Summary</h3>
+                                <p>Netflix's transformation from a DVD-by-mail service to the world's leading streaming platform represents a masterclass in strategic foresight, technological innovation, and market adaptation. This case study examines the key decisions, challenges, and strategies that enabled Netflix to not just survive but dominate the digital entertainment landscape.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>The Challenge</h3>
+                                <p>In the early 2000s, Netflix faced the threat of digital disruption to their DVD rental model. The company recognized that streaming technology would eventually replace physical media and made the bold decision to cannibalize their own successful business model.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Strategic Approach</h3>
+                                <p>• Investment in streaming infrastructure and technology<br>
+                                • Content strategy evolution from licensing to original production<br>
+                                • Data-driven personalization and recommendation systems<br>
+                                • Global expansion strategy<br>
+                                • Cultural transformation and innovation mindset</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Key Learnings</h3>
+                                <p>Netflix's success demonstrates the importance of anticipating market changes, willingness to disrupt your own business model, and the power of data-driven decision making in creating competitive advantages.</p>
+                            </div>
+                        </div>
+                    `
+                },
+                reef: {
+                    title: 'Great Barrier Reef Conservation Case Study',
+                    content: `
+                        <div class="modal-header">
+                            <h2 class="modal-title">Great Barrier Reef: Climate Change & Conservation</h2>
+                            <p>Environmental challenges and solutions for one of the world's most important ecosystems.</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>Overview</h3>
+                                <p>The Great Barrier Reef faces unprecedented threats from climate change, pollution, and human activities. This case study examines the scientific evidence, conservation efforts, and potential solutions for preserving this World Heritage site.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Key Challenges</h3>
+                                <p>• Ocean warming and coral bleaching events<br>
+                                • Water quality degradation from agricultural runoff<br>
+                                • Coastal development pressures<br>
+                                • Ocean acidification<br>
+                                • Crown-of-thorns starfish outbreaks</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Conservation Strategies</h3>
+                                <p>Multi-faceted approach including water quality improvements, coral restoration projects, marine park management, and climate change mitigation efforts at local and global scales.</p>
+                            </div>
+                        </div>
+                    `
+                },
+                alphago: {
+                    title: 'AlphaGo AI Breakthrough Case Study',
+                    content: `
+                        <div class="modal-header">
+                            <h2 class="modal-title">AlphaGo: Mastering the Game of Go</h2>

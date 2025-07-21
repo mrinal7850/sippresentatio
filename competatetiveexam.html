@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INNOVATORS - Competitive Exams</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 0, 0, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff0000;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 20px #ff0000;
+            transform: scale(1.05);
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff0000, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+            to { text-shadow: 0 0 30px rgba(255, 0, 0, 0.8); }
+        }
+
+        .exam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .exam-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .exam-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 0, 0, 0.3);
+            border-color: #ff0000;
+        }
+
+        .exam-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2) 0%, rgba(255, 0, 0, 0.05) 100%);
+        }
+
+        .exam-category {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: #ff0000;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .exam-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .exam-content {
+            padding: 2rem;
+        }
+
+        .exam-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .exam-stat {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .exam-stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        .exam-stat-label {
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ff0000;
+        }
+
+        .exam-container {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .exam-header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        .question-counter {
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        .question-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            line-height: 1.8;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .option:hover {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: #ff0000;
+        }
+
+        .option.selected {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #ff0000;
+        }
+
+        .option-letter {
+            width: 30px;
+            height: 30px;
+            background: #ff0000;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .exam-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .results-container {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.05));
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .score-value {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ff0000;
+            margin-bottom: 1rem;
+        }
+
+        .performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .metric-title {
+            font-size: 1.1rem;
+            color: #cccccc;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000, #cc0000);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .exam-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .exam-header-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .exam-controls {
+                flex-direction: column;
+            }
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 0, 0, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showExamList()">INNOVATORS</a>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalScore">0</div>
+                    <div>Total Score</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="testsCompleted">0</div>
+                    <div>Tests Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="averageScore">0%</div>
+                    <div>Average Score</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <!-- Exam List View -->
+        <div id="examListView">
+            <div class="page-header">
+                <div class="page-header-content">
+                    <h1>Competitive Exams</h1>
+                    <p>Master competitive exams with our comprehensive test series. Practice with real exam patterns, get instant results, and track your progress.</p>
+                </div>
+            </div>
+
+            <div class="exam-grid">
+                <!-- JEE Main -->
+                <div class="exam-card">
+                    <div class="exam-header">
+                        <div class="exam-category">Engineering</div>
+                        <h3 class="exam-title">JEE Main</h3>
+                        <p>Joint Entrance Examination - Main</p>
+                    </div>
+                    <div class="exam-content">
+                        <div class="exam-stats">
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">90</div>
+                                <div class="exam-stat-label">Questions</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">180</div>
+                                <div class="exam-stat-label">Minutes</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">360</div>
+                                <div class="exam-stat-label">Max Marks</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">PCM</div>
+                                <div class="exam-stat-label">Subjects</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="startExam('jee')">Start JEE Main Test</button>
+                        <button class="btn btn-secondary" onclick="showSyllabus('jee')">View Syllabus</button>
+                    </div>
+                </div>
+
+                <!-- NEET -->
+                <div class="exam-card">
+                    <div class="exam-header">
+                        <div class="exam-category">Medical</div>
+                        <h3 class="exam-title">NEET UG</h3>
+                        <p>National Eligibility Entrance Test</p>
+                    </div>
+                    <div class="exam-content">
+                        <div class="exam-stats">
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">180</div>
+                                <div class="exam-stat-label">Questions</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">180</div>
+                                <div class="exam-stat-label">Minutes</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">720</div>
+                                <div class="exam-stat-label">Max Marks</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">PCB</div>
+                                <div class="exam-stat-label">Subjects</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="startExam('neet')">Start NEET Test</button>
+                        <button class="btn btn-secondary" onclick="showSyllabus('neet')">View Syllabus</button>
+                    </div>
+                </div>
+
+                <!-- CAT -->
+                <div class="exam-card">
+                    <div class="exam-header">
+                        <div class="exam-category">Management</div>
+                        <h3 class="exam-title">CAT</h3>
+                        <p>Common Admission Test</p>
+                    </div>
+                    <div class="exam-content">
+                        <div class="exam-stats">
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">66</div>
+                                <div class="exam-stat-label">Questions</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">120</div>
+                                <div class="exam-stat-label">Minutes</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">198</div>
+                                <div class="exam-stat-label">Max Marks</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">3</div>
+                                <div class="exam-stat-label">Sections</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="startExam('cat')">Start CAT Test</button>
+                        <button class="btn btn-secondary" onclick="showSyllabus('cat')">View Syllabus</button>
+                    </div>
+                </div>
+
+                <!-- UPSC -->
+                <div class="exam-card">
+                    <div class="exam-header">
+                        <div class="exam-category">Civil Services</div>
+                        <h3 class="exam-title">UPSC Prelims</h3>
+                        <p>Civil Services Preliminary Examination</p>
+                    </div>
+                    <div class="exam-content">
+                        <div class="exam-stats">
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">200</div>
+                                <div class="exam-stat-label">Questions</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">240</div>
+                                <div class="exam-stat-label">Minutes</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">400</div>
+                                <div class="exam-stat-label">Max Marks</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">2</div>
+                                <div class="exam-stat-label">Papers</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="startExam('upsc')">Start UPSC Test</button>
+                        <button class="btn btn-secondary" onclick="showSyllabus('upsc')">View Syllabus</button>
+                    </div>
+                </div>
+
+                <!-- GATE -->
+                <div class="exam-card">
+                    <div class="exam-header">
+                        <div class="exam-category">Engineering</div>
+                        <h3 class="exam-title">GATE</h3>
+                        <p>Graduate Aptitude Test in Engineering</p>
+                    </div>
+                    <div class="exam-content">
+                        <div class="exam-stats">
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">65</div>
+                                <div class="exam-stat-label">Questions</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">180</div>
+                                <div class="exam-stat-label">Minutes</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">100</div>
+                                <div class="exam-stat-label">Max Marks</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">27</div>
+                                <div class="exam-stat-label">Subjects</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="startExam('gate')">Start GATE Test</button>
+                        <button class="btn btn-secondary" onclick="showSyllabus('gate')">View Syllabus</button>
+                    </div>
+                </div>
+
+                <!-- Banking -->
+                <div class="exam-card">
+                    <div class="exam-header">
+                        <div class="exam-category">Banking</div>
+                        <h3 class="exam-title">IBPS PO</h3>
+                        <p>Institute of Banking Personnel Selection</p>
+                    </div>
+                    <div class="exam-content">
+                        <div class="exam-stats">
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">100</div>
+                                <div class="exam-stat-label">Questions</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">60</div>
+                                <div class="exam-stat-label">Minutes</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">100</div>
+                                <div class="exam-stat-label">Max Marks</div>
+                            </div>
+                            <div class="exam-stat">
+                                <div class="exam-stat-value">5</div>
+                                <div class="exam-stat-label">Sections</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="startExam('banking')">Start Banking Test</button>
+                        <button class="btn btn-secondary" onclick="showSyllabus('banking')">View Syllabus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Taking View -->
+        <div id="examView" class="exam-container">
+            <div class="exam-header-info">
+                <div class="question-counter">
+                    Question <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span>
+                </div>
+                <div class="timer" id="timer">30:00</div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-text" id="questionText"></div>
+                <div class="options-container" id="optionsContainer"></div>
+            </div>
+
+            <div class="exam-controls">
+                <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn">Next</button>
+                <button class="btn btn-primary" onclick="submitExam()" id="submitBtn" style="display: none;">Submit Exam</button>
+            </div>
+        </div>
+
+        <!-- Results View -->
+        <div id="resultsView" class="results-container">
+            <div class="score-display">
+                <div class="score-value" id="finalScore">85%</div>
+                <h2>Excellent Performance!</h2>
+                <p>You've successfully completed the exam</p>
+            </div>
+
+            <div class="performance-metrics">
+                <div class="metric-card">
+                    <div class="metric-title">Correct Answers</div>
+                    <div class="metric-value" id="correctAnswers">17</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Wrong Answers</div>
+                    <div class="metric-value" id="wrongAnswers">3</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Time Taken</div>
+                    <div class="metric-value" id="timeTaken">25:30</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Accuracy</div>
+                    <div class="metric-value" id="accuracy">85%</div>
+                </div>
+            </div>
+
+            <div class="exam-controls">
+                <button class="btn btn-secondary" onclick="reviewAnswers()">Review Answers</button>
+                <button class="btn btn-primary" onclick="showExamList()">Take Another Test</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-element" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
+    <div class="floating-element" style="top: 60%; left: 85%; animation-delay: 2s;"></div>
+    <div class="floating-element" style="top: 80%; left: 15%; animation-delay: 4s;"></div>
+
+    <script>
+        let currentExam = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let examStartTime = null;
+        let timerInterval = null;
+        let userStats = {
+            totalScore: 0,
+            testsCompleted: 0,
+            totalQuestions: 0,
+            correctAnswers: 0
+        };
+
+        // Sample question banks for different exams
+        const questionBanks = {
+            jee: [
+                {
+                    question: "If the roots of the equation x² - 2ax + a² + a - 3 = 0 are real and distinct, then the range of values of 'a' is:",
+                    options: ["a < -3 or a > 1", "a ∈ (-3, 1)", "a ∈ R", "a ∈ (-1, 3)"],
+                    correct: 0,
+                    subject: "Mathematics"
+                },
+                {
+                    question: "The angular momentum of an electron in Bohr's orbit is given by:",
+                    options: ["mvr", "nh/2π", "h/2π", "Both A and B"],
+                    correct: 3,
+                    subject: "Physics"
+                },
+                {
+                    question: "Which of the following compounds shows geometrical isomerism?",
+                    options: ["CH₃-CHCl-CH₃", "CHCl=CHCl", "CH₂=CH-CH₂Cl", "CH₃-CH₂-CHCl₂"],
+                    correct: 1,
+                    subject: "Chemistry"
+                },
+                {
+                    question: "The derivative of sin⁻¹(x) with respect to x is:",
+                    options: ["1/√(1-x²)", "-1/√(1-x²)", "√(1-x²)", "1/(1-x²)"],
+                    correct: 0,
+                    subject: "Mathematics"
+                },
+                {
+                    question: "The SI unit of electric field intensity is:",
+                    options: ["N/C", "V/m", "Both A and B", "J/C"],
+                    correct: 2,
+                    subject: "Physics"
+                }
+            ],
+            neet: [
+                {
+                    question: "Which of the following is NOT a function of the liver?",
+                    options: ["Detoxification", "Bile production", "Insulin production", "Protein synthesis"],
+                    correct: 2,
+                    subject: "Biology"
+                },
+                {
+                    question: "The number of ATP molecules produced in aerobic respiration is:",
+                    options: ["2", "36-38", "8", "24"],
+                    correct: 1,
+                    subject: "Biology"
+                },
+                {
+                    question: "Which element shows maximum catenation property?",
+                    options: ["Silicon", "Carbon", "Germanium", "Tin"],
+                    correct: 1,
+                    subject: "Chemistry"
+                },
+                {
+                    question: "The process of conversion of sugar into alcohol is called:",
+                    options: ["Respiration", "Fermentation", "Glycolysis", "Oxidation"],
+                    correct: 1,
+                    subject: "Biology"
+                },
+                {
+                    question: "The velocity of light in vacuum is:",
+                    options: ["3 × 10⁸ m/s", "3 × 10⁶ m/s", "3 × 10¹⁰ m/s", "3 × 10⁵ m/s"],
+                    correct: 0,
+                    subject: "Physics"
+                }
+            ],
+            cat: [
+                {
+                    question: "If 2x + 3y = 12 and x - y = 1, then the value of x is:",
+                    options: ["3", "2", "4", "1"],
+                    correct: 0,
+                    subject: "Quantitative Aptitude"
+                },
+                {
+                    question: "Choose the word that is most similar in meaning to 'PROLIFIC':",
+                    options: ["Productive", "

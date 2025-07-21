@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INNOVATORS - Your Learning Destination</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Image Placeholder */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url(''); /* ADD YOUR BACKGROUND IMAGE URL HERE */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff0000;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 20px #ff0000;
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #ff0000;
+            background: rgba(255, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.5);
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+
+        .nav-links a.active {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            border-color: #ffffff;
+        }
+
+        /* Main Content Pages */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 120px 2rem 2rem;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff0000, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+            to { text-shadow: 0 0 30px rgba(255, 0, 0, 0.8); }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #cccccc;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.5);
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 0, 0, 0.2);
+            border-color: #ff0000;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #ff0000;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Login Page */
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: #cccccc;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .form-group input:focus + label,
+        .form-group input:not(:placeholder-shown) + label {
+            top: -0.5rem;
+            left: 0.5rem;
+            font-size: 0.8rem;
+            color: #ff0000;
+            background: #000;
+            padding: 0 0.5rem;
+        }
+
+        /* Video Section */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .video-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(255, 0, 0, 0.2);
+        }
+
+        .video-placeholder {
+            height: 200px;
+            background: linear-gradient(45deg, #333, #000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff0000;
+            font-size: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 0, 0, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: #ff0000;
+            transform: scale(1.1);
+        }
+
+        /* Support Page */
+        .support-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .faq-question {
+            cursor: pointer;
+            padding: 1rem;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .faq-answer {
+            padding: 1rem;
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            nav {
+                padding: 1rem;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 1rem;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #ff0000;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">INNOVATORS</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('login')">Login</a></li>
+                <li><a href="cousrespage.html">courses</a></li>
+                <li><a href="#" onclick="showPage('support')">Support</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#" onclick="showPage('home')" class="mobile-nav-link">Home</a>
+            <a href="#" onclick="showPage('login')" class="mobile-nav-link">Login</a>
+            <a href="#" onclick="showPage('videos')" class="mobile-nav-link">Videos</a>
+            <a href="#" onclick="showPage('support')" class="mobile-nav-link">Support</a>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="container">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Welcome to INNOVATORS</h1>
+                    <p>Your Ultimate Learning Destination - Master Any Subject with Interactive Content</p>
+                    <a href="#" class="cta-button" onclick="showPage('login')">Start Learning Today</a>
+                </div>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Expert Courses</h3>
+                    <p>Learn from industry experts with comprehensive courses designed for all skill levels</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Learning</h3>
+                    <p>Access your courses anywhere, anytime with our responsive platform</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Certificates</h3>
+                    <p>Earn recognized certificates upon course completion to boost your career</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Community</h3>
+                    <p>Connect with fellow learners and instructors in our vibrant community</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Interactive Content</h3>
+                    <p>Engage with quizzes, animations, and hands-on projects for better learning</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Personalized Learning</h3>
+                    <p>AI-powered recommendations tailored to your learning style and pace</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="page">
+        <div class="container">
+            <div class="login-container">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #ff0000;">Student Login</h2>
+                <form class="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder=" " required>
+                        <label for="email">Email Address</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="password" placeholder=" " required>
+                        <label for="password">Password</label>
+                    </div>
+                    <button type="submit" class="cta-button" style="border: none; cursor: pointer;">Login</button>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <a href="#" style="color: #ff0000; text-decoration: none;">Forgot Password?</a>
+                    </div>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <span>Don't have an account? </span>
+                        <a href="#" style="color: #ff0000; text-decoration: none;">Sign Up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Videos Page -->
+    <div id="videos" class="page">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem; color: #ff0000; font-size: 2.5rem;">Educational Videos</h2>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: #ff0000; margin-bottom: 0.5rem;">Mathematics Fundamentals</h3>
+                        <p>Master the basics of algebra and geometry with animated explanations</p>
+                        <div style="margin-top: 1rem; color: #cccccc; font-size: 0.9rem;">Duration: 45 min</div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: #ff0000; margin-bottom: 0.5rem;">Science Experiments</h3>
+                        <p>Interactive physics and chemistry experiments you can try at home</p>
+                        <div style="margin-top: 1rem; color: #cccccc; font-size: 0.9rem;">Duration: 32 min</div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: #ff0000; margin-bottom: 0.5rem;">History Timeline</h3>
+                        <p>Animated journey through world history and important events</p>
+                        <div style="margin-top: 1rem; color: #cccccc; font-size: 0.9rem;">Duration: 38 min</div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: #ff0000; margin-bottom: 0.5rem;">Programming Basics</h3>
+                        <p>Learn coding fundamentals with step-by-step visual tutorials</p>
+                        <div style="margin-top: 1rem; color: #cccccc; font-size: 0.9rem;">Duration: 52 min</div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: #ff0000; margin-bottom: 0.5rem;">Language Learning</h3>
+                        <p>Interactive language lessons with pronunciation guides</p>
+                        <div style="margin-top: 1rem; color: #cccccc; font-size: 0.9rem;">Duration: 28 min</div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: #ff0000; margin-bottom: 0.5rem;">Art & Creativity</h3>
+                        <p>Digital art tutorials and creative thinking exercises</p>
+                        <div style="margin-top: 1rem; color: #cccccc; font-size: 0.9rem;">Duration: 41 min</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Page -->
+    <div id="support" class="page">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem; color: #ff0000; font-size: 2.5rem;">Customer Support</h2>
+            
+            <div class="support-section">
+                <h3 style="color: #ff0000; margin-bottom: 1rem;">Contact Us</h3>
+                <p style="margin-bottom: 1rem;">Need help? Our support team is here for you!</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4 style="color: #ff0000;">📧 Email Support</h4>
+                        <p>innovatorsteam@gmail.com</p>
+                        <p style="color: #cccccc; font-size: 0.9rem;">Response within 24 hours</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #ff0000;">💬 Live Chat</h4>
+                        <p>Available 24/7</p>
+                        <button class="cta-button" style="margin-top: 0.5rem; padding: 0.5rem 1rem; font-size: 0.9rem;" onclick="startChat()">Start Chat</button>
+                    </div>
+                    <div>
+                        <h4 style="color: #ff0000;">📞 Phone Support</h4>
+                        <p>+91-8085845697</p>
+                        <p style="color: #cccccc; font-size: 0.9rem;">Mon-Fri 9AM-6PM EST</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="support-section">
+                <h3 style="color: #ff0000; margin-bottom: 1rem;">Frequently Asked Questions</h3>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(1)">How do I reset my password?</div>
+                    <div class="faq-answer" id="faq1">Click on "Forgot Password" on the login page and follow the instructions sent to your email.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(2)">Can I access courses offline?</div>
+                    <div class="faq-answer" id="faq2">Yes! Download the mobile app and save courses for offline viewing.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(3)">How do I get my certificate?</div>
+                    <div class="faq-answer" id="faq3">Complete all course modules and pass the final assessment to receive your certificate.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(4)">Is there a mobile app?</div>
+                    <div class="faq-answer" id="faq4">Yes! Download EduHub from the App Store or Google Play Store.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page Navigation
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            // Close mobile menu if open
+            document.getElementById('mobileMenu').style.display = 'none';
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Login Form Handler
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation (in real app, this would be server-side)
+            if (email && password) {
+                alert('Login successful! Welcome to INNOVATORS.');
+                showPage('home');
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        // FAQ Toggle
+        function toggleFAQ(num) {
+            const answer = document.getElementById(`faq${num}`);
+            const isVisible = answer.style.display === 'block';
+            
+            // Hide all FAQ answers
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`faq${i}`).style.display = 'none';
+            }
+            
+            // Show clicked FAQ if it wasn't visible
+            if (!isVisible) {
+                answer.style.display = 'block';
+            }
+        }
+
+        // Start Chat Function
+        function startChat() {
+            alert('Chat feature coming soon! For now, please email us at support@eduhub.com');
+        }
+
+        // Video Play Simulation
+        document.addEventListener('DOMContentLoaded', function() {
+            const playButtons = document.querySelectorAll('.play-button');
+            playButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    alert('Video player would open here. Integration with your video platform needed.');
+                });
+            });
+        });
+
+        // Smooth scrolling and animations
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(0, 0, 0, 0.98)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.95)';
+            }
+        });
+
+        // Add some interactive elements
+        document.addEventListener('mousemove', function(e) {
+            const hero = document.querySelector('.hero');
+            if (hero && hero.offsetParent !== null) {
+                const rect = hero.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                hero.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            }
+        });
+    </script>
+</body>
+</html>
